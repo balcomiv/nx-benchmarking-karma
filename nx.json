@@ -18,5 +18,13 @@
       }
     }
   },
-  "projects": {}
+  "projects": {
+    "seed-app": {
+      "tags": []
+    },
+    "seed-app-e2e": {
+      "tags": [],
+      "implicitDependencies": ["seed-app"]
+    }
+  }
 }

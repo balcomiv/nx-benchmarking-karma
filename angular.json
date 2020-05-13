@@ -1,6 +1,131 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "seed-app": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/seed-app",
+      "sourceRoot": "apps/seed-app/src",
+      "prefix": "nx-benchmarking-karma",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/seed-app",
+            "index": "apps/seed-app/src/index.html",
+            "main": "apps/seed-app/src/main.ts",
+            "polyfills": "apps/seed-app/src/polyfills.ts",
+            "tsConfig": "apps/seed-app/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/seed-app/src/favicon.ico",
+              "apps/seed-app/src/assets"
+            ],
+            "styles": ["apps/seed-app/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/seed-app/src/environments/environment.ts",
+                  "with": "apps/seed-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "seed-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "seed-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "seed-app:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/seed-app/tsconfig.app.json",
+              "apps/seed-app/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/seed-app/**"]
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "apps/seed-app/src/test.ts",
+            "tsConfig": "apps/seed-app/tsconfig.spec.json",
+            "karmaConfig": "apps/seed-app/karma.conf.js",
+            "polyfills": "apps/seed-app/src/polyfills.ts",
+            "styles": [],
+            "scripts": [],
+            "assets": []
+          }
+        }
+      }
+    },
+    "seed-app-e2e": {
+      "root": "apps/seed-app-e2e",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/seed-app-e2e/protractor.conf.js",
+            "devServerTarget": "seed-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "seed-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/seed-app-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**", "!apps/seed-app-e2e/**"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "defaultCollection": "@nrwl/angular"
   },
@@ -12,5 +137,6 @@
     "@nrwl/angular:library": {
       "unitTestRunner": "karma"
     }
-  }
+  },
+  "defaultProject": "seed-app"
 }
